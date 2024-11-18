@@ -1,0 +1,28 @@
+name: Remote build and release
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches:
+      - '[0-9]+.[0-9]+'
+
+jobs:
+  release:
+    name: 🚢 Release to latest/candidate
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [amd64, arm64]
+    steps:
+      - name: 🚢 Release to latest/candidate
+        uses: snapcrafters/ci/release-to-candidate@main
+        with:
+          architecture: ${{ matrix.arch }}
+          launchpad-token: ${{ secrets.LAUNCHPAD_TOKEN }}
+          store-token: ${{ secrets.STORE_TOKEN }}
+          channel: ${{ github.ref_name }}/stable
