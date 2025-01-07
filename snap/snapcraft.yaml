@@ -201,6 +201,7 @@ parts:
       - dh-exec
       - libfontconfig1-dev
       - libxcb1-dev
+      - libmd4c-html0
     stage-packages:
       - libpcre2-16-0
       - libdouble-conversion3
